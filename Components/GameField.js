@@ -33,7 +33,7 @@ export default class GameField extends Component {
       .get()
       .then(doc => {
         if (doc.exists) {
-          const { player1, player2, wordHistory } = doc._data;
+          const { player1, player2, wordHistory } = doc.data();
           this.setState({
             db: doc,
             text: "",
@@ -52,7 +52,11 @@ export default class GameField extends Component {
       });
   }
 
-  isFirstGuesser = (user, wordHistory) => {
+  isFirstGuesser = wordHistory => {
+    if (wordHistory === undefined || wordHistory.length == 0) {
+      return true;
+    }
+
     const lastRound = wordHistory.slice(-1)[0];
     const ol = Object.keys(lastRound).length;
 
@@ -62,22 +66,24 @@ export default class GameField extends Component {
   isSecondGuesser = (user, wordHistory) => {
     const lastRound = wordHistory.slice(-1)[0];
     const ol = Object.keys(lastRound).length;
+    console.log(ol);
+    console.log(user);
 
-    return ol === 2 && !lastRound.hasOwnProperty(user);
+    return ol === 2 && !lastRound.hasOwnProperty(user.uid);
   };
 
   onPress = () => {
     const { text, wordHistory, currentUser } = this.state;
     let newRound;
 
-    if (this.isFirstGuesser(currentUser, wordHistory)) {
+    if (this.isFirstGuesser(wordHistory)) {
       newRound = {
-        round: wordHistory.length + 2,
+        round: wordHistory.length + 1,
         [currentUser.uid]: text
       };
     } else if (this.isSecondGuesser(currentUser, wordHistory)) {
       newRound = {
-        round: wordHistory.length + 1,
+        round: wordHistory.length,
         [currentUser.uid]: text
       };
     } else return;
@@ -96,24 +102,27 @@ export default class GameField extends Component {
   };
 
   render() {
+    const { player1, player2, wordHistory, key } = this.state;
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <View style={styles.container}>
-          <Text>Words in game with ID: {this.state.key} are currently</Text>
           <Text>
-            Playing: {this.state.player1} and {this.state.player2}
+            Playing: {player1} and {player2}
           </Text>
-          <View style={{ flexDirection: "row" }}>
-            <FlatList
-              data={this.state.wordHistory}
-              keyExtractor={item => item.round.toString()}
-              renderItem={({ item }) => (
-                <Text style={styles.currentWords}>
-                  {item.round} {item[player1]} {item[player2]}
-                </Text>
-              )}
-            />
-          </View>
+          {wordHistory.length == 0}
+          {
+            <View style={{ flexDirection: "row" }}>
+              <FlatList
+                data={wordHistory}
+                keyExtractor={item => item.round.toString()}
+                renderItem={({ item }) => (
+                  <Text style={styles.currentWords}>
+                    {item.round} {item[player1]} {item[player2]}
+                  </Text>
+                )}
+              />
+            </View>
+          }
           <TextInput
             style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
             onChangeText={text => this.setState({ text })}

@@ -7,16 +7,12 @@ import {
   View
 } from "react-native";
 import firebase from "react-native-firebase";
-import NewGame from "./NewGame";
 const MK = require("react-native-material-kit");
 
 const { MKButton, MKColor } = MK;
 
 const ColoredRaisedButton = MKButton.coloredButton()
-  .withBackgroundColor(MKColor.Teal)
-  .withOnPress(() => {
-    console.log("Hi, it's a colored button!");
-  })
+  .withBackgroundColor("#2196f3")
   .build();
 
 export default class Main extends React.Component {
@@ -132,10 +128,8 @@ export default class Main extends React.Component {
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
     padding: 10,
-    margin: 5,
-    backgroundColor: "#b3ffb3"
+    margin: 5
   },
   title: {
     padding: 10,
@@ -151,6 +145,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingHorizontal: 10,
-    backgroundColor: "#99ccff"
+    backgroundColor: "#ffffff"
   }
 });

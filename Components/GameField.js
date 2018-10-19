@@ -9,6 +9,17 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import firebase from "react-native-firebase";
+const MK = require("react-native-material-kit");
+
+const { MKTextField, MKButton, MKColor } = MK;
+
+const Textfield = MKTextField.textfield()
+  .withPlaceholder("Your word")
+  .build();
+
+const ColoredRaisedButton = MKButton.coloredButton()
+  .withBackgroundColor(MKColor.Lime)
+  .build();
 
 export default class GameField extends Component {
   constructor(props) {
@@ -96,7 +107,8 @@ export default class GameField extends Component {
       })
       .then(() => {
         this.setState({
-          wordHistory: data
+          wordHistory: data,
+          text: ""
         });
       });
   };
@@ -123,14 +135,13 @@ export default class GameField extends Component {
               />
             </View>
           }
-          <TextInput
-            style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+          <Textfield
             onChangeText={text => this.setState({ text })}
             value={this.state.text}
           />
-          <TouchableHighlight style={styles.button} onPress={this.onPress}>
+          <ColoredRaisedButton style={styles.button} onPress={this.onPress}>
             <Text> Guess new word </Text>
-          </TouchableHighlight>
+          </ColoredRaisedButton>
         </View>
       </KeyboardAvoidingView>
     );
@@ -150,7 +161,6 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
     padding: 20,
     margin: 20
   }

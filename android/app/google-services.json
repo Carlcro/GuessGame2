@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "655480876740",
+    "firebase_url": "https://guessgame-95739.firebaseio.com",
+    "project_id": "guessgame-95739",
+    "storage_bucket": "guessgame-95739.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655480876740:android:9e66afc9639d0b76",
+        "android_client_info": {
+          "package_name": "com.papertiger.guessgame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655480876740-c9vsm3h3tlgc16mtam8nh63edfudceni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT77WilJ28uUCsegh-Y0338KCYbYDBOdQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

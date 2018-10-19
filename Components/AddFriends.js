@@ -7,7 +7,6 @@ import {
   TouchableHighlight
 } from "react-native";
 import firebase from "react-native-firebase";
-import { getAllUsers } from "../Services/userService";
 
 export default class AddFriends extends Component {
   constructor(props) {

@@ -24,7 +24,6 @@ export default class Main extends React.Component {
       games: []
     };
   }
-  state = { currentUser: null };
 
   componentDidMount() {
     const { currentUser } = firebase.auth();
@@ -82,10 +81,6 @@ export default class Main extends React.Component {
     const { currentUser, games } = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.buttonText}>
-          Hi {currentUser && currentUser.email}!
-        </Text>
-        <ColoredRaisedButton />
         <Text style={styles.title}>Home</Text>
         {games.length > 0 && (
           <FlatList

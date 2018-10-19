@@ -7,7 +7,7 @@ import Loading from "../Components/Loading";
 import Main from "../Components/Main";
 import NewGame from "../Components/NewGame";
 
-import styles from "./Styles/NavigationStyles";
+//import styles from "./Styles/NavigationStyles";
 import AddFriends from "../Components/AddFriends";
 
 // Manifest of possible screens
@@ -25,11 +25,16 @@ const PrimaryNav = StackNavigator(
   {
     // Default config for all screens
     headerMode: "none",
-    initialRouteName: "Loading",
-    navigationOptions: {
-      headerStyle: styles.header
-    }
+    initialRouteName: "Loading"
   }
 );
 
 export default PrimaryNav;
+
+/*
+
+,
+    navigationOptions: {
+      headerStyle: styles.header
+    }
+    */

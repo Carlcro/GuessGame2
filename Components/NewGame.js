@@ -9,43 +9,36 @@ import {
 import firebase from "react-native-firebase";
 
 export default class NewGame extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.ref = firebase.firestore().collection("games");
     this.unsubscribe = null;
+    const { navigation } = this.props;
+    const currentUser = navigation.state.params.currentUser;
     this.state = {
-      games: []
+      games: [],
+      currentUser
     };
-
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        const currentUser = user;
-        this.state = { currentUser };
-      }
-    });
   }
 
-  componentDidMount = () => {
-    const friends = [
-      {
-        name: "Emil",
-        uid: "asdasdasdasdasd"
-      },
-      {
-        name: "Johan",
-        uid: "qweqweqweqweqwe"
-      }
-    ];
+  async componentDidMount() {
+    this.populateFriends();
+  }
 
+  async populateFriends() {
+    var friends = [];
+    const allUsers = await firebase
+      .firestore()
+      .collection("users")
+      .get();
+    allUsers.forEach(doc => {
+      if (listOfFriendsUid.include(doc.data().uid)) friends.push(doc.data());
+    });
     this.setState({ friends });
-  };
+  }
 
   handleNewGame = friend => {
     const { currentUser } = this.state;
-    console.log(currentUser);
-    console.log(currentUser.uid);
-    console.log(this.ref);
-
     firebase
       .firestore()
       .collection("games")

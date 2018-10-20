@@ -14,13 +14,13 @@ export default class SignUp extends React.Component {
       .then(user => {
         this.createUser(user);
       })
-      .then(() => this.props.navigation.navigate("Main"))
+      .then(user => this.props.navigation.navigate("Main", { user }))
       .catch(error => this.setState({ errorMessage: error.message }));
   };
 
   createUser = ({ user }) => {
-    const userRef = firebase.firestore();
-    userRef
+    return firebase
+      .firestore()
       .collection("users")
       .doc(user.uid)
       .set({
@@ -28,7 +28,6 @@ export default class SignUp extends React.Component {
         emailVerified: user.emailVerified,
         uid: user.uid,
         friends: []
-
       });
   };
 

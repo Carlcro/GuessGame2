@@ -1,27 +1,24 @@
 import React from "react";
-import {
-  StyleSheet,
-  FlatList,
-  TouchableHighlight,
-  Text,
-  View
-} from "react-native";
+import { StyleSheet, FlatList, Text, View } from "react-native";
 import firebase from "react-native-firebase";
 const MK = require("react-native-material-kit");
 
-const { MKButton, MKColor } = MK;
+const { MKButton } = MK;
 
 const ColoredRaisedButton = MKButton.coloredButton()
   .withBackgroundColor("#2196f3")
   .build();
 
 export default class Main extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.ref = firebase.firestore().collection("games");
     this.unsubscribe = null;
+    const { navigation } = this.props;
+    const currentUser = navigation.state.params.currentUser;
     this.state = {
-      games: []
+      games: [],
+      currentUser
     };
   }
 
@@ -43,13 +40,18 @@ export default class Main extends React.Component {
     const games = [];
     querySnapshot.forEach(doc => {
       const { player1, player2, wordHistory } = doc.data();
-      games.push({
-        key: doc.id,
-        doc, // DocumentSnapshot
-        player1,
-        player2,
-        wordHistory
-      });
+      if (
+        this.state.currentUser.uid === player1 ||
+        this.state.currentUser.uid === player2
+      ) {
+        games.push({
+          key: doc.id,
+          doc, // DocumentSnapshot
+          player1,
+          player2,
+          wordHistory
+        });
+      }
     });
     this.setState({
       games,
@@ -79,8 +81,11 @@ export default class Main extends React.Component {
 
   render() {
     const { currentUser, games } = this.state;
+    console.log(currentUser);
+
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>Hi! {currentUser && currentUser.email}</Text>
         <Text style={styles.title}>Home</Text>
         {games.length > 0 && (
           <FlatList
@@ -100,7 +105,9 @@ export default class Main extends React.Component {
         )}
         <ColoredRaisedButton
           style={styles.button}
-          onPress={() => this.props.navigation.navigate("NewGame")}
+          onPress={() =>
+            this.props.navigation.navigate("NewGame", { currentUser })
+          }
         >
           <Text style={styles.buttonText}> NewGame </Text>
         </ColoredRaisedButton>

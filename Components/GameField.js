@@ -28,6 +28,13 @@ export default class GameField extends Component {
     const game = navigation.state.params.item;
     this.ref = firebase.firestore().doc("games/" + game.key);
 
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        const currentUser = user;
+        this.state = { currentUser };
+      }
+    });
+
     this.state = {
       db: "",
       text: "",

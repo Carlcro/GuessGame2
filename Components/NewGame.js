@@ -32,7 +32,8 @@ export default class NewGame extends Component {
       .collection("users")
       .get();
     allUsers.forEach(doc => {
-      if (listOfFriendsUid.include(doc.data().uid)) friends.push(doc.data());
+      if (this.state.currentUser.friends.includes(doc.data().uid))
+        friends.push(doc.data());
     });
     this.setState({ friends });
   }
@@ -43,8 +44,8 @@ export default class NewGame extends Component {
       .firestore()
       .collection("games")
       .add({
-        player1: currentUser.uid,
-        player2: friend.uid,
+        player1: currentUser.email,
+        player2: friend.email,
         wordHistory: []
       })
       .then(ref => {
@@ -68,7 +69,7 @@ export default class NewGame extends Component {
               style={styles.button}
               onPress={() => this.handleNewGame(item)}
             >
-              <Text> {item.name} </Text>
+              <Text> {item.email} </Text>
             </TouchableHighlight>
           )}
           keyExtractor={item => item.uid}

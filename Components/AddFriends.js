@@ -44,7 +44,7 @@ export default class AddFriends extends Component {
       .get();
     querySnapshot.forEach(doc => {
       if (
-        doc.data().uid !== this.state.currentUser.uid ||
+        doc.data().uid !== this.state.currentUser.uid &&
         !this.state.currentFriends.includes(doc.data().uid)
       )
         allUsers.push(doc.data());

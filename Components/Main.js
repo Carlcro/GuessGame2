@@ -15,7 +15,7 @@ export default class Main extends React.Component {
     this.ref = firebase.firestore().collection("games");
     this.unsubscribe = null;
     const { navigation } = this.props;
-    const currentUser = navigation.state.params.currentUser;
+    const currentUser = navigation.state.params.currentUser.data();
     this.state = {
       games: [],
       currentUser
@@ -23,8 +23,6 @@ export default class Main extends React.Component {
   }
 
   componentDidMount() {
-    const { currentUser } = firebase.auth();
-    this.setState({ currentUser });
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
 
@@ -46,7 +44,7 @@ export default class Main extends React.Component {
       ) {
         games.push({
           key: doc.id,
-          doc, // DocumentSnapshot
+          doc,
           player1,
           player2,
           wordHistory
@@ -81,8 +79,6 @@ export default class Main extends React.Component {
 
   render() {
     const { currentUser, games } = this.state;
-    console.log(currentUser);
-
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Hi! {currentUser && currentUser.email}</Text>
